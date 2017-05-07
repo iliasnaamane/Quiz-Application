@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="quizDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="quizDBStoreContainer">
+    <EntitySet Name="QuizSet" EntityType="quizDB.Store.QuizSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuestionsSet" EntityType="quizDB.Store.QuestionsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AnswersSet" EntityType="quizDB.Store.AnswersSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="QuestionsQuiz" Association="quizDB.Store.QuestionsQuiz">
+      <End Role="Questions" EntitySet="QuestionsSet" />
+      <End Role="Quiz" EntitySet="QuizSet" />
+    </AssociationSet>
+    <AssociationSet Name="QuestionsAnswers" Association="quizDB.Store.QuestionsAnswers">
+      <End Role="Questions" EntitySet="QuestionsSet" />
+      <End Role="Answers" EntitySet="AnswersSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="QuizSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="thematic" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="question" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Quiz_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AnswersSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="status" Type="smallint" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Questions_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="QuestionsQuiz">
+    <End Role="Questions" Type="quizDB.Store.QuestionsSet" Multiplicity="*" />
+    <End Role="Quiz" Type="quizDB.Store.QuizSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="Quiz_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuestionsAnswers">
+    <End Role="Questions" Type="quizDB.Store.QuestionsSet" Multiplicity="1" />
+    <End Role="Answers" Type="quizDB.Store.AnswersSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Answers">
+        <PropertyRef Name="Questions_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="quizDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="quizDBContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="QuizSet" EntityType="quizDB.Quiz" />
+          <EntitySet Name="QuestionsSet" EntityType="quizDB.Questions" />
+          <AssociationSet Name="QuestionsQuiz" Association="quizDB.QuestionsQuiz">
+            <End Role="Questions" EntitySet="QuestionsSet" />
+            <End Role="Quiz" EntitySet="QuizSet" />
+          </AssociationSet>
+          <EntitySet Name="AnswersSet" EntityType="quizDB.Answers" />
+          <AssociationSet Name="QuestionsAnswers" Association="quizDB.QuestionsAnswers">
+            <End Role="Questions" EntitySet="QuestionsSet" />
+            <End Role="Answers" EntitySet="AnswersSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Quiz">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Questions" Relationship="quizDB.QuestionsQuiz" FromRole="Quiz" ToRole="Questions" />
+          <Property Name="thematic" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="question" Type="String" Nullable="false" />
+          <NavigationProperty Name="Quiz" Relationship="quizDB.QuestionsQuiz" FromRole="Questions" ToRole="Quiz" />
+          <NavigationProperty Name="Answers" Relationship="quizDB.QuestionsAnswers" FromRole="Questions" ToRole="Answers" />
+        </EntityType>
+        <Association Name="QuestionsQuiz">
+          <End Type="quizDB.Questions" Role="Questions" Multiplicity="*" />
+          <End Type="quizDB.Quiz" Role="Quiz" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Answers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Questions" Relationship="quizDB.QuestionsAnswers" FromRole="Answers" ToRole="Questions" />
+          <Property Name="status" Type="Int16" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="QuestionsAnswers">
+          <End Type="quizDB.Questions" Role="Questions" Multiplicity="1" />
+          <End Type="quizDB.Answers" Role="Answers" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="quizDBStoreContainer" CdmEntityContainer="quizDBContainer">
+    <EntitySetMapping Name="QuizSet">
+      <EntityTypeMapping TypeName="IsTypeOf(quizDB.Quiz)">
+        <MappingFragment StoreEntitySet="QuizSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="thematic" ColumnName="thematic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuestionsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(quizDB.Questions)">
+        <MappingFragment StoreEntitySet="QuestionsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="question" ColumnName="question" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AnswersSet">
+      <EntityTypeMapping TypeName="IsTypeOf(quizDB.Answers)">
+        <MappingFragment StoreEntitySet="AnswersSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="QuestionsQuiz" TypeName="quizDB.QuestionsQuiz" StoreEntitySet="QuestionsSet">
+      <EndProperty Name="Quiz">
+        <ScalarProperty Name="Id" ColumnName="Quiz_Id" />
+      </EndProperty>
+      <EndProperty Name="Questions">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="QuestionsAnswers" TypeName="quizDB.QuestionsAnswers" StoreEntitySet="AnswersSet">
+      <EndProperty Name="Questions">
+        <ScalarProperty Name="Id" ColumnName="Questions_Id" />
+      </EndProperty>
+      <EndProperty Name="Answers">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

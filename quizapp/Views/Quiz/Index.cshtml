@@ -1,0 +1,57 @@
+﻿@model IEnumerable<quizapp.Models.Quiz>
+
+@{
+    ViewBag.Title = "Quiz";
+}
+
+<br />
+
+<p>
+    @Html.ActionLink("Create Quiz", "Create", "Quiz",null, new { @class = "btn btn-default" })
+</p>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        List of Quiz
+                        <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                    </h3>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.thematic)
+                        </th>
+                        <th>Action</th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.thematic)
+                            </td>
+                            <td>
+                              
+                                @Html.ActionLink(" Test", "Test", new { id = item.Id }, new { @class = "btn btn-success btn-xs glyphicon glyphicon-edit" })
+                                @Html.ActionLink(" Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-xs glyphicon glyphicon-edit" })
+                                @Html.ActionLink(" Delete", "Delete", new { id = item.Id },new {@class= "btn btn-danger btn-xs glyphicon glyphicon-trash" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+

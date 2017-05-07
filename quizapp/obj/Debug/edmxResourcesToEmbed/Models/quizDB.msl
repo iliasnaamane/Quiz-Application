@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="quizDBStoreContainer" CdmEntityContainer="quizDBContainer">
+    <EntitySetMapping Name="QuizSet">
+      <EntityTypeMapping TypeName="IsTypeOf(quizDB.Quiz)">
+        <MappingFragment StoreEntitySet="QuizSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="thematic" ColumnName="thematic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuestionsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(quizDB.Questions)">
+        <MappingFragment StoreEntitySet="QuestionsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="question" ColumnName="question" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AnswersSet">
+      <EntityTypeMapping TypeName="IsTypeOf(quizDB.Answers)">
+        <MappingFragment StoreEntitySet="AnswersSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="QuestionsQuiz" TypeName="quizDB.QuestionsQuiz" StoreEntitySet="QuestionsSet">
+      <EndProperty Name="Quiz">
+        <ScalarProperty Name="Id" ColumnName="Quiz_Id" />
+      </EndProperty>
+      <EndProperty Name="Questions">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="QuestionsAnswers" TypeName="quizDB.QuestionsAnswers" StoreEntitySet="AnswersSet">
+      <EndProperty Name="Questions">
+        <ScalarProperty Name="Id" ColumnName="Questions_Id" />
+      </EndProperty>
+      <EndProperty Name="Answers">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="quizDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="quizDBContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="QuizSet" EntityType="quizDB.Quiz" />
+    <EntitySet Name="QuestionsSet" EntityType="quizDB.Questions" />
+    <AssociationSet Name="QuestionsQuiz" Association="quizDB.QuestionsQuiz">
+      <End Role="Questions" EntitySet="QuestionsSet" />
+      <End Role="Quiz" EntitySet="QuizSet" />
+    </AssociationSet>
+    <EntitySet Name="AnswersSet" EntityType="quizDB.Answers" />
+    <AssociationSet Name="QuestionsAnswers" Association="quizDB.QuestionsAnswers">
+      <End Role="Questions" EntitySet="QuestionsSet" />
+      <End Role="Answers" EntitySet="AnswersSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Quiz">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" />
+    <NavigationProperty Name="Questions" Relationship="quizDB.QuestionsQuiz" FromRole="Quiz" ToRole="Questions" />
+    <Property Name="thematic" Type="String" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Questions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="question" Type="String" Nullable="false" />
+    <NavigationProperty Name="Quiz" Relationship="quizDB.QuestionsQuiz" FromRole="Questions" ToRole="Quiz" />
+    <NavigationProperty Name="Answers" Relationship="quizDB.QuestionsAnswers" FromRole="Questions" ToRole="Answers" />
+  </EntityType>
+  <Association Name="QuestionsQuiz">
+    <End Type="quizDB.Questions" Role="Questions" Multiplicity="*" />
+    <End Type="quizDB.Quiz" Role="Quiz" Multiplicity="1" />
+  </Association>
+  <EntityType Name="Answers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Questions" Relationship="quizDB.QuestionsAnswers" FromRole="Answers" ToRole="Questions" />
+    <Property Name="status" Type="Int16" Nullable="false" />
+    <Property Name="name" Type="String" Nullable="false" />
+  </EntityType>
+  <Association Name="QuestionsAnswers">
+    <End Type="quizDB.Questions" Role="Questions" Multiplicity="1" />
+    <End Type="quizDB.Answers" Role="Answers" Multiplicity="*" />
+  </Association>
+</Schema>

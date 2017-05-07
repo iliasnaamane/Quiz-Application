@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "TestQuestion";
+   
+}
+    
+
+<h2>TestQuestion</h2>
+<form id="formQuiz">
+    <input type="hidden" id="step" name="step" value="0" />
+    <input type="hidden" id="score" name="score" value="0" />
+    <input type="hidden" id="quizId" name="quizId" value=@ViewBag.Question.Quiz.Id />
+</form>    
+<div class="container-fluid bg-info">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><span class="label label-warning" id="qid">1</span> @ViewBag.Question.question </h3>
+            </div>
+            <div class="modal-body">
+                <div class="col-xs-3 col-xs-offset-5">
+                    <div id="loadbar" style="display: none;">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div>
+                </div>
+                <div class="quiz" id="quiz" data-toggle="buttons">
+                        @foreach (quizapp.Models.Answers a in @ViewBag.Question.Answers)
+                        {
+                            <label class="element-animation1 btn btn-lg btn-primary btn-block">
+                                <span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+
+                                @{
+                                    if (a.status == 1)
+                                    {
+                                        <input type="radio" name="q_answer" value="1"> @a.name
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" name="q_answer" value="0"> @a.name
+                                    }
+                                }
+                            </label>
+                                    }
+                </div>
+            </div>
+            <div class="modal-footer text-muted">
+                <span id="answer"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Success Modal Templates-->
+<div id="modal-success" class="modal modal-message modal-success fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="glyphicon glyphicon-check"></i>
+            </div>
+            <div class="modal-title"><b>Success</b></div>
+            <div class="modal-body">You have done great! <br/>
+                <span id="mark-success"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
+<!--End Success Modal Templates-->
+<!--Info Modal Templates-->
+<div id="modal-info" class="modal modal-message modal-info fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="glyphicon glyphicon-thumbs-up"></i>
+            </div>
+            <div class="modal-title"><b>Great</b></div>
+
+            <div class="modal-body">You have done good!<br />
+                <span id="mark-info"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">OK</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
+<!--End Info Modal Templates-->
+<!--Danger Modal Templates-->
+<div id="modal-danger" class="modal modal-message modal-danger fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="glyphicon glyphicon-exclamation-sign"></i>
+            </div>
+            <div class="modal-title"><b>Alert</b></div>
+
+            <div class="modal-body">You'vd done very bad! <br />
+                <span id="mark-danger"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
+<!--End Danger Modal Templates-->
+<!--Danger Modal Templates-->
+<div id="modal-warning" class="modal modal-message modal-warning fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-warning"></i>
+            </div>
+            <div class="modal-title">Warning</div>
+
+            <div class="modal-body">Is something wrong? You should practice more!  <br />
+                <span id="mark-warning"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">OK</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
+<!--End Danger Modal Templates-->
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("/Scripts/perso/quiz-handler.js")"></script>
+}
+

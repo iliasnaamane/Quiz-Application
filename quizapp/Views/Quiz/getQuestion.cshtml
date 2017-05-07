@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+<input type="hidden" id="question" name="question" value=@ViewBag.Question.question />
+
+    @foreach (quizapp.Models.Answers a in @ViewBag.Question.Answers)
+    {
+        <label class="element-animation1 btn btn-lg btn-primary btn-block">
+            <span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+
+            @{
+                if (a.status == 1)
+                {
+                    <input type="radio" name="q_answer" value="1"> @a.name
+                }
+                else
+                {
+                    <input type="radio" name="q_answer" value="0"> @a.name
+                }
+
+
+
+            }
+
+
+        </label>
+    }
+
+@section scripts 
+{
+    <script type="text/javascript" src="@Url.Content("/Scripts/quiz-handler.js")"></script>
+}

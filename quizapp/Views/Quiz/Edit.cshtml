@@ -1,0 +1,54 @@
+﻿@model IEnumerable<quizapp.Models.QuestionsAnswers>
+
+@{
+    ViewBag.Title = "Edit";
+}
+<br/>
+<div class="container">
+   
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Questions du quiz @ViewBag.quizName </h3>
+                </div>
+                <div class="panel-body">
+                    <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Questions" />
+                    <br/>
+                    <a href="/Quiz/CreateQuestion/@ViewBag.quizId" class="btn  btn-default" data-target="#modal" data-toggle="modal" >Create Question</a>
+                    <!-- Modal -->
+                    <div id="modal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                        </div>
+                    </div>
+                   
+                </div>
+                <table class="table table-hover" id="dev-table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Question</th>
+                        <th>Right Answer</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>1</td>
+                            <td>@item.Questions.question</td>
+                            <td>@item.Answers.name</td>
+                            <td>Edit</td>
+                        </tr>
+                    }
+                    
+                   
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

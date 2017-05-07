@@ -1,0 +1,30 @@
+﻿@model List<string>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<br/>
+@Html.ActionLink("Create", "Create", "Quiz", null, new { @class = "btn btn-default" })
+<div class="container">
+    
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Quiz Themes
+                        <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                    </h3>
+                </div>
+                <ul class="list-group">
+                   @foreach (string s in Model)
+                   {
+                    @Html.ActionLink(s, "Index", "Quiz", new { theme = s },new {@class = "list-group-item"})
+                   }                  
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

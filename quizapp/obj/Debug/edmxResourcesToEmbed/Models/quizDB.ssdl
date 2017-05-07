@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="quizDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="quizDBStoreContainer">
+    <EntitySet Name="QuizSet" EntityType="quizDB.Store.QuizSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuestionsSet" EntityType="quizDB.Store.QuestionsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AnswersSet" EntityType="quizDB.Store.AnswersSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="QuestionsQuiz" Association="quizDB.Store.QuestionsQuiz">
+      <End Role="Questions" EntitySet="QuestionsSet" />
+      <End Role="Quiz" EntitySet="QuizSet" />
+    </AssociationSet>
+    <AssociationSet Name="QuestionsAnswers" Association="quizDB.Store.QuestionsAnswers">
+      <End Role="Questions" EntitySet="QuestionsSet" />
+      <End Role="Answers" EntitySet="AnswersSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="QuizSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="thematic" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="question" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Quiz_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AnswersSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="status" Type="smallint" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Questions_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="QuestionsQuiz">
+    <End Role="Questions" Type="quizDB.Store.QuestionsSet" Multiplicity="*" />
+    <End Role="Quiz" Type="quizDB.Store.QuizSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="Quiz_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuestionsAnswers">
+    <End Role="Questions" Type="quizDB.Store.QuestionsSet" Multiplicity="1" />
+    <End Role="Answers" Type="quizDB.Store.AnswersSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Answers">
+        <PropertyRef Name="Questions_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
